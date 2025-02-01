@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¿Serás mi San Valentín?</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oleo+Script:wght@400;700&family=Poppins:wght@300;400;700&display=swap');
+        
+        body {
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+            background: black;
+            color: white;
+            text-align: center;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        h1 {
+            font-size: 3rem;
+            font-family: 'Oleo Script', cursive;
+            text-shadow: 0 0 10px pink, 0 0 20px red;
+        }
+        .button {
+            background: pink;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: 0.3s;
+            opacity: 0.8;
+            font-family: 'Poppins', sans-serif;
+            margin: 10px;
+        }
+        .button:hover {
+            background: red;
+            color: white;
+            box-shadow: 0 0 20px pink;
+        }
+        .carousel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .carousel img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            animation: fade 10s infinite;
+        }
+        @keyframes fade {
+            0%, 100% { opacity: 0; }
+            10% { opacity: 1; }
+            20% { opacity: 0; }
+        }
+        .carousel img:nth-child(1) { animation-delay: 0s; }
+        .carousel img:nth-child(2) { animation-delay: 1s; }
+        .carousel img:nth-child(3) { animation-delay: 2s; }
+        .carousel img:nth-child(4) { animation-delay: 3s; }
+        .carousel img:nth-child(5) { animation-delay: 4s; }
+        .carousel img:nth-child(6) { animation-delay: 5s; }
+        .carousel img:nth-child(7) { animation-delay: 6s; }
+        .carousel img:nth-child(8) { animation-delay: 7s; }
+        .carousel img:nth-child(9) { animation-delay: 8s; }
+        .carousel img:nth-child(10) { animation-delay: 9s; }
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .button {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+            }
+        }
+        audio {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .flower {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background-size: cover;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            from {
+                transform: translateY(-120vh);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
+        /* Efectos para el botón Sí */
+        .yes-button {
+            transition: transform 0.2s, box-shadow 0.3s, background-color 0.2s;
+            box-shadow: 0 0 15px pink;
+        }
+        .yes-button:active {
+            transform: scale(1.1);
+        }
+        .yes-button:hover {
+            background-color: red;
+            color: white;
+        }
+       
+
+        /* Efecto de partículas de corazones */
+        .heart {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 30px;
+            color: red;
+            animation: float 2s infinite;
+        }
+        @keyframes float {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-10px) scale(1.2); }
+            100% { transform: translateY(0) scale(1); }
+        }
+
+        /* Efectos para el botón No */
+        .no-button {
+            transition: transform 0.2s, opacity 0.3s;
+        }
+        .no-button:active {
+            transform: scale(0.9);
+        }
+        .no-button:hover {
+            background-color: darkred;
+            color: white;
+        }
+        .no-button:active {
+            opacity: 0.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel">
+        <img src="foto1.jpg" alt="Foto 1">
+        <img src="foto2.jpg" alt="Foto 2">
+        <img src="foto3.jpg" alt="Foto 3">
+        <img src="foto4.jpg" alt="Foto 4">
+        <img src="foto5.jpg" alt="Foto 5">
+        <img src="foto6.jpg" alt="Foto 6">
+        <img src="foto7.jpg" alt="Foto 7">
+        <img src="foto8.jpg" alt="Foto 8">
+        <img src="foto9.jpg" alt="Foto 9">
+        <img src="foto10.jpg" alt="Foto 10">
+    </div>
+    <div class="container">
+        <h1>¿Te gustaría ser mi San Valentín? 💖</h1>
+        <button class="button yes-button" id="yes-button" onclick="onYesClick()">Sí 💘</button>
+        <button class="button no-button" id="no-button" onclick="onNoClick()">No 💔</button>
+    </div>
+    <audio id="background-music" loop>
+        <source src="Stromae.mp3" type="audio/mpeg">
+        <source src="Stromae.ogg" type="audio/ogg">
+        <source src="Stromae.wav" type="audio/wav">
+    </audio>
+    <script>
+        function createFlower() {
+            const flower = document.createElement('div');
+            flower.classList.add('flower');
+            flower.style.left = Math.random() * 100 + 'vw';
+            flower.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            const flowerTypes = ['flor1.png', 'flor2.png', 'flor3.png'];
+            flower.style.backgroundImage = `url(${flowerTypes[Math.floor(Math.random() * flowerTypes.length)]})`;
+            document.body.appendChild(flower);
+            setTimeout(() => { flower.remove(); }, 5000);
+        }
+        setInterval(createFlower, 300);
+    </script>
+    <script>
+        document.addEventListener("click", function() {
+            let audio = document.getElementById("background-music");
+            if (audio.paused) {
+                audio.play();
+            }
+        }, { once: true });
+
+        // Partículas de corazones al hacer clic en "Sí"
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart');
+            heart.textContent = '💖';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 2000);
+        }
+
+        // Función para el botón "Sí"
+        function onYesClick() {
+            let yesButton = document.getElementById('yes-button');
+            yesButton.textContent = 'Perfecto! 💖';
+            createHeart();
+            setTimeout(() => {
+                window.location.href = 'https://www.tiktok.com/@airhjass/video/7274743575663938822?is_from_webapp=1&sender_device=pc&web_id=7431826377177024005';
+            }, 1500);
+        }
+
+        // Función para el botón "No"
+        function onNoClick() {
+            let noButton = document.getElementById('no-button');
+            noButton.textContent = 'A, entiendo😢';
+            noButton.style.animation = 'vibration 0.3s';
+            setTimeout(() => {
+                window.location.href = 'https://www.tiktok.com/@ayanamiqx/video/7094086102100806939?q=gato%20explota&t=1738436635093';
+            }, 1500);
+        }
+    </script>
+</body>
+</html>
